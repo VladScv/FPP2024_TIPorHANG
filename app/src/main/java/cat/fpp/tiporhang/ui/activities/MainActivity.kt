@@ -152,7 +152,7 @@ class MainActivity : AppCompatActivity() {
             textAlignment = Alignment.ALIGN_CENTER.ordinal
             consoleMessage.text = StringBuilder()
                 .append("\n\n\n")
-                .append("** Pres '_' to get a hint \n ")
+                .append("** Pres '-' to get a hint \n ")
                 .append("** Press '.' to enter developer mode\n")
             isFocusable=false
         }
