@@ -51,11 +51,6 @@ class SplashScreenActivity : AppCompatActivity() {
 
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        gameStart()
-        return super.onTouchEvent(event)
-
-    }
 
     private fun gameStart() {
         val intent = Intent(this, MainActivity::class.java)

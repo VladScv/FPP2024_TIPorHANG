@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
      *                                                                           Global Declarations
      * -------------------------------------------------------------------------------------------*/
     private var init: Boolean = false
+    private var reset: Boolean = false
     private lateinit var gameManager: GameManager
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var mainLayout: ConstraintLayout
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
     //Catch keyboard strokes events to turn it into valid inputs
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        event?.let {
+        if(init && !reset)event?.let {
             val keyChar: Char = it.unicodeChar.toChar().uppercaseChar()
             if (('A'..'Z').contains(keyChar) && !gameManager.getLettersAll().contains(keyChar))
                 gameManager.enterLetter(keyChar)
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity() {
             else if (it.unicodeChar == '-'.code)
                 setTemporalMessage(gameManager.viewWordHint(),1750)
             updateViews()
-        }
+        }else(resetGame(false))
         return false
     }
 
@@ -167,6 +168,7 @@ class MainActivity : AppCompatActivity() {
      * -------------------------------------------------------------------------------------------*/
 
     private fun resetGame(fullGame: Boolean) {
+        reset=false
         if (fullGame) initialState()
         gameManager.updateGameData(true)
         gameManager.reloadImage()
@@ -177,6 +179,12 @@ class MainActivity : AppCompatActivity() {
     // Also updates all data present in gameManager before render views
     private fun updateViews() {
         if (!init)init=true
+        if(gameManager.isLastScreen()){
+            if(gameManager.hasLost()){
+                gameManager.solveMagicWord()
+            }
+            reset=true
+        }
         wordView.text = gameManager.getWordFormatted()
         consoleMessage.text = gameManager.message
         val sb = StringBuilder()

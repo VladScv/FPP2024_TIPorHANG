@@ -23,7 +23,6 @@
         </activity>
         <activity
             android:name=".ui.activities.MainActivity"
-            android:label="GameActivity"
             android:parentActivityName=".ui.activities.SplashScreenActivity" >
             <!-- Parent activity meta-data to support API level 15+ -->
             <meta-data

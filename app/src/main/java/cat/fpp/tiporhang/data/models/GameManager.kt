@@ -42,7 +42,7 @@ class GameManager(context: Context, frameLayout: FrameLayout)  {
     private fun hasWon():Boolean{return getLettersOk().containsAll(magicWordDistinctLetters())}
 
     /**Metodo para encapsular verificar si se han alcanzado el maximo de errores*/
-    private fun hasLost():Boolean{return getLettersNok().count() >= MAX_ERRORS}
+    fun hasLost():Boolean{return getLettersNok().count() >= MAX_ERRORS}
 
     /**-------------------------------------------------- GET GAME-DATA METHODS ----------------*/
     /** obtener todos los aciertos */
@@ -101,6 +101,7 @@ class GameManager(context: Context, frameLayout: FrameLayout)  {
         when {
             forceReset -> resetGameData()
             hasLost() -> imageManager.updateFrame(ImageIndex.GAME_OVER)
+
             hasWon()-> imageManager.updateFrame(ImageIndex.YOU_WIN)
             else -> imageManager.updateFrame(ImageIndex.entries[getLettersNok().count()])
         }
@@ -119,7 +120,7 @@ class GameManager(context: Context, frameLayout: FrameLayout)  {
 
     fun viewDevMessage(): String {
         val oldmessage= message
-        message=magicWord
+        solveMagicWord()
         return oldmessage
     }
 
@@ -152,6 +153,11 @@ class GameManager(context: Context, frameLayout: FrameLayout)  {
             from = 0, until = wordMap!!.size
         )].uppercase(Locale.getDefault())
     }
+
+    fun solveMagicWord() {
+        message = magicWord
+    }
+
     /**RESET
      * borra todas las letras y restablece el mapa.
      * También vuelve a setear una nueva palabra aleatoria
